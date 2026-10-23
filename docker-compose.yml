@@ -39,6 +39,8 @@ services:
     profiles: ["deploy"]
     image: caddy:2-alpine
     restart: unless-stopped
+    # `edge` is shared with other stacks on this VPS (e.g. Momentum), so this Caddy can proxy to them
+    networks: [default, edge]
     ports:
       - "80:80"
       - "443:443"
@@ -54,3 +56,8 @@ services:
 volumes:
   caddy_data:
   caddy_config:
+
+networks:
+  edge:
+    external: true
+    name: edge
